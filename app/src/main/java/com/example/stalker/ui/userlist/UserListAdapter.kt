@@ -11,17 +11,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.stalker.R
+import com.example.stalker.api.models.Id
 import com.example.stalker.api.models.User
 
-class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(
-    UserDiffCallback
-) {
-    class UserViewHolder(itemView: View) :
-            RecyclerView.ViewHolder(itemView) {
+class UserListAdapter(private val onClick: (String) -> Unit) :
+    ListAdapter<User, UserListAdapter.UserViewHolder>(
+        UserDiffCallback
+    ) {
+    class UserViewHolder(itemView: View, val onClick: (String) -> Unit) :
+        RecyclerView.ViewHolder(itemView) {
         private val name: TextView = itemView.findViewById(R.id.name)
         private val email: TextView = itemView.findViewById(R.id.email)
         private val phone: TextView = itemView.findViewById(R.id.phone)
         private val photo: ImageView = itemView.findViewById(R.id.user_photo)
+
 
         /* Bind flower name and image. */
         fun bind(user: User) {
@@ -29,20 +32,24 @@ class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(
             email.text = user.email
             phone.text = user.phone
 
+            itemView.setOnClickListener {
+                onClick(user.id.value)
+            }
+
             var uri = user.picture.large
             Glide.with(itemView.context)
-                    .load(uri)
-                    .transform(CircleCrop())
-                    .into(photo)
+                .load(uri)
+                .transform(CircleCrop())
+                .into(photo)
         }
     }
 
     /* Creates and inflates view and return FlowerViewHolder. */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.user_item, parent, false)
+            .inflate(R.layout.user_item, parent, false)
         return UserViewHolder(
-            view
+            view, onClick
         )
     }
 

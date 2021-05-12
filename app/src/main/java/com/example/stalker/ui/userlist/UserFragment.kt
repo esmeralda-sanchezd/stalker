@@ -2,6 +2,7 @@ package com.example.stalker.ui.userlist
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +11,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.stalker.MainActivity
 import com.example.stalker.R
 import com.example.stalker.StalkerApplication
 
 class UserFragment : Fragment() {
 
-    val adapter = UserListAdapter()
+    val adapter = UserListAdapter { value -> adapterOnClick(value) }
     private lateinit var recyclerview: RecyclerView
     private lateinit var usersViewModel: UserViewModel
 
@@ -47,5 +49,10 @@ class UserFragment : Fragment() {
         usersViewModel.observeLiveData().observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
+    }
+
+    private fun adapterOnClick(userId: String) {
+       (activity as? MainActivity)?.navigateToDetailsFragment(userId)
+        Log.d("FETCH_CACHE", "Clicked the tab ${userId}")
     }
 }
