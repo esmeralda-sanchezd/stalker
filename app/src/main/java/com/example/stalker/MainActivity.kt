@@ -2,8 +2,7 @@ package com.example.stalker
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.stalker.ui.userlist.UserFragment
 
 class MainActivity : AppCompatActivity() {
     val userFragment = UserFragment()

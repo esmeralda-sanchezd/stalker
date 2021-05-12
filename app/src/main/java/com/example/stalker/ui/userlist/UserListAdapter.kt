@@ -1,4 +1,4 @@
-package com.example.stalker
+package com.example.stalker.ui.userlist
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +10,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.example.stalker.R
 import com.example.stalker.api.models.User
 
-class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(UserDiffCallback) {
+class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(
+    UserDiffCallback
+) {
     class UserViewHolder(itemView: View) :
             RecyclerView.ViewHolder(itemView) {
         private val name: TextView = itemView.findViewById(R.id.name)
@@ -38,7 +41,9 @@ class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(UserDi
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.user_item, parent, false)
-        return UserViewHolder(view)
+        return UserViewHolder(
+            view
+        )
     }
 
     /* Gets current flower and uses it to bind view. */

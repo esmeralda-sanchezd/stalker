@@ -2,6 +2,7 @@ package com.example.stalker
 
 import android.app.Application
 import com.example.stalker.api.UserApiEndpoint
+import com.example.stalker.repository.UserDataRepository
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
@@ -9,6 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class StalkerApplication : Application() {
+    private lateinit var dataRepository : UserDataRepository
     private lateinit var userApi: UserApiEndpoint
 
     override fun onCreate() {
@@ -24,7 +26,9 @@ class StalkerApplication : Application() {
                 .build()
 
         userApi = retrofit.create(UserApiEndpoint::class.java)
+        dataRepository = UserDataRepository(userApi)
     }
 
-    fun getUserApi() = userApi
+
+    fun getUserRepository() = dataRepository
 }
