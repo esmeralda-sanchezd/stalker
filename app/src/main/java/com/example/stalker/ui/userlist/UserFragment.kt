@@ -29,7 +29,10 @@ class UserFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
         usersViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        usersViewModel.provideDataRepository((activity?.application as StalkerApplication).getUserRepository())
+
+        if (savedInstanceState == null) {
+            usersViewModel.provideDataRepository((activity?.application as StalkerApplication).getUserRepository())
+        }
         return view
     }
 

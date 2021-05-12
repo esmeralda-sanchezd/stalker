@@ -14,7 +14,7 @@ class UserViewModel: ViewModel() {
     fun provideDataRepository(dataRepository: UserDataRepository){
         this.dataRepository = dataRepository
         dataRepository.fetchUsers().subscribe({
-            users.postValue(it.results)
+            users.postValue(it)
         }, {
             Log.e("DEBUG_ERROR", "error", it)
         })
