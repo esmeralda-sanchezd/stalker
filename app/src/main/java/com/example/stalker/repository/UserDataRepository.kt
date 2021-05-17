@@ -11,7 +11,7 @@ class UserDataRepository(private val userApi: UserApiEndpoint) {
     fun fetchUsers(): Single<List<User>> {
         return if (cachedUserList != null) {
             Log.d("FETCH_CACHE", "fetch from cache")
-             Single.just(cachedUserList)
+            Single.just(cachedUserList)
         } else {
             Log.d("FETCH_CACHE", "fetch and save user list")
             userApi.getUsers().map {
@@ -22,6 +22,14 @@ class UserDataRepository(private val userApi: UserApiEndpoint) {
                 }
             }
         }
+    }
+
+    fun getUser(email: String): Single<User> {
+        return cachedUserList?.find {
+            it.email == email
+        }?.let {
+            Single.just(it)
+        } ?: Single.error(Throwable("User not found"))
     }
 
 

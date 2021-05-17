@@ -13,6 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.stalker.R
 import com.example.stalker.api.models.Id
 import com.example.stalker.api.models.User
+import com.example.stalker.util.loadFromUrl
 
 class UserListAdapter(private val onClick: (String) -> Unit) :
     ListAdapter<User, UserListAdapter.UserViewHolder>(
@@ -33,14 +34,11 @@ class UserListAdapter(private val onClick: (String) -> Unit) :
             phone.text = user.phone
 
             itemView.setOnClickListener {
-                onClick(user.id.value)
+                onClick(user.email)
             }
 
-            var uri = user.picture.large
-            Glide.with(itemView.context)
-                .load(uri)
-                .transform(CircleCrop())
-                .into(photo)
+            var url = user.picture.large
+            photo.loadFromUrl(url)
         }
     }
 
