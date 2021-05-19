@@ -2,6 +2,7 @@ package com.example.stalker.ui.userlist
 
 import android.content.Context
 import android.os.Bundle
+import android.renderscript.ScriptGroup
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,12 +15,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.stalker.MainActivity
 import com.example.stalker.R
 import com.example.stalker.StalkerApplication
+import com.example.stalker.databinding.FragmentUserBinding
 
 class UserFragment : Fragment() {
 
     val adapter = UserListAdapter { value -> adapterOnClick(value) }
     private lateinit var recyclerview: RecyclerView
     private lateinit var usersViewModel: UserViewModel
+    private lateinit var userFragmentBinding : FragmentUserBinding;
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -29,7 +32,8 @@ class UserFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_user, container, false)
+        userFragmentBinding = FragmentUserBinding.inflate(inflater, container, false);
+        val view = userFragmentBinding.root
         usersViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         if (savedInstanceState == null) {

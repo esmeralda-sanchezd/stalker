@@ -2,6 +2,7 @@ package com.example.stalker
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.stalker.databinding.ActivityMainBinding
 import com.example.stalker.ui.userlist.UserDetailsFragment
 import com.example.stalker.ui.userlist.UserFragment
 
@@ -10,7 +11,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         //Initial commit
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         if(savedInstanceState == null) { // initial transaction should be wrapped like this
             supportFragmentManager.beginTransaction()

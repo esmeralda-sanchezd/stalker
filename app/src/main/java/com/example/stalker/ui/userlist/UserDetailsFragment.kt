@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.stalker.R
 import com.example.stalker.StalkerApplication
+import com.example.stalker.databinding.FragmentUserDetailsBinding
 import com.example.stalker.util.loadFromUrl
 
 private const val ID_VALUE= "ID"
@@ -19,8 +20,9 @@ private const val ID_VALUE= "ID"
 class UserDetailsFragment : Fragment() {
     private var idValue: String? = null
     private lateinit var userDetailsViewModel: UserDetailsViewModel
+    private lateinit var userDetailsBinding : FragmentUserDetailsBinding
 
-    val name by lazy { view?.findViewById<TextView>(R.id.name) }
+    val name by lazy { userDetailsBinding.name }
     val email by lazy { view?.findViewById<TextView>(R.id.email) }
     val phone by lazy { view?.findViewById<TextView>(R.id.phone) }
     val photo by lazy { view?.findViewById<ImageView>(R.id.user_photo)}
@@ -38,6 +40,7 @@ class UserDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        userDetailsBinding = FragmentUserDetailsBinding.inflate(inflater, container, false);
          userDetailsViewModel = ViewModelProvider(this).get(UserDetailsViewModel::class.java)
         if(savedInstanceState == null){
             (activity?.application as? StalkerApplication)?.getUserRepository()?.let {
@@ -46,7 +49,7 @@ class UserDetailsFragment : Fragment() {
                 )
             }
         }
-        return inflater.inflate(R.layout.fragment_user_details, container, false)
+        return userDetailsBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,10 +59,11 @@ class UserDetailsFragment : Fragment() {
             idValue?.let { userDetailsViewModel.fetchUser(it) }
         }
         userDetailsViewModel.observeLiveData().observe(viewLifecycleOwner, Observer {
-            name?.text = "${it.name.first} ${it.name.last}"
-            email?.text = "${it.email}"
-            phone?.text = "${it.phone}"
-            photo?.loadFromUrl(it.picture.large)
+
+            userDetailsBinding.name.text  = "${it.name.first} ${it.name.last}"
+            userDetailsBinding.email.text = "${it.email}"
+            userDetailsBinding.phone.text  = "${it.phone}"
+            userDetailsBinding.userPhoto.loadFromUrl(it.picture.large)
 
             Log.d("FETCH_CACHE",  "${it}")
         })

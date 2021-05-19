@@ -10,12 +10,13 @@ import com.example.stalker.repository.UserDataRepository
 class UserDetailsViewModel : ViewModel() {
     private var dataRepository: UserDataRepository? = null
     private val userLiveData: MutableLiveData<User> = MutableLiveData()
-
+    
     fun observeLiveData() : LiveData<User> = userLiveData
 
     fun provideDataRepository(dataRepository: UserDataRepository){
         this.dataRepository = dataRepository
     }
+
 
     fun fetchUser(email: String){
         dataRepository?.getUser(email)?.subscribe({
